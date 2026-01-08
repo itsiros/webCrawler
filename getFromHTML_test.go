@@ -1,4 +1,4 @@
-package getfromhtml
+package main
 
 import (
 	"net/url"
@@ -51,7 +51,7 @@ func TestGetH1FromHTML(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			actual := getH1FromHTML(tc.input)
+			actual := GetH1FromHTML(tc.input)
 
 			if actual != tc.expected {
 				t.Errorf("expected %q, got %q", tc.expected, actual)
@@ -127,7 +127,7 @@ func TestGetFirstParagraphFromHTML(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			actual := getFirstParagraphFromHTML(tc.input)
+			actual := GetFirstParagraphFromHTML(tc.input)
 
 			if actual != tc.expected {
 				t.Errorf("expected %q, got %q", tc.expected, actual)
@@ -173,7 +173,7 @@ func TestGetURLsFromHTML(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			actual, err := getURLsFromHTML(tt.html, baseURL)
+			actual, err := GetURLsFromHTML(tt.html, baseURL)
 			if err != nil {
 				t.Fatalf("unexpected error: %v", err)
 			}
@@ -224,7 +224,7 @@ func TestGetImagesFromHTML(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			actual, err := getImagesFromHTML(tt.html, baseURL)
+			actual, err := GetImagesFromHTML(tt.html, baseURL)
 			if err != nil {
 				t.Fatalf("unexpected error: %v", err)
 			}
@@ -245,7 +245,7 @@ func TestExtractPageData(t *testing.T) {
         <img src="/image1.jpg" alt="Image 1">
     </body></html>`
 
-	actual := extractPageData(inputBody, inputURL)
+	actual := ExtractPageData(inputBody, inputURL)
 
 	expected := PageData{
 		URL:            "https://blog.boot.dev",
@@ -269,7 +269,7 @@ func TestExtractPageData(t *testing.T) {
 			<img src="/image1.jpg" alt="Image 1">
 		</body></html>`
 
-		actual := extractPageData(inputBody, inputURL)
+		actual := ExtractPageData(inputBody, inputURL)
 
 		expected := PageData{
 			URL:            "https://blog.boot.dev",
@@ -292,7 +292,7 @@ func TestExtractPageData(t *testing.T) {
 			<p>Just text.</p>
 		</body></html>`
 
-		actual := extractPageData(inputBody, inputURL)
+		actual := ExtractPageData(inputBody, inputURL)
 
 		expected := PageData{
 			URL:            "https://blog.boot.dev",
@@ -315,7 +315,7 @@ func TestExtractPageData(t *testing.T) {
 			<a href="/link">Link</a>
 		</body></html>`
 
-		actual := extractPageData(inputBody, inputURL)
+		actual := ExtractPageData(inputBody, inputURL)
 
 		expected := PageData{
 			URL:            "https://blog.boot.dev",
@@ -342,7 +342,7 @@ func TestExtractPageData(t *testing.T) {
 			<img src="https://cdn.com/img2.png">
 		</body></html>`
 
-		actual := extractPageData(inputBody, inputURL)
+		actual := ExtractPageData(inputBody, inputURL)
 
 		expected := PageData{
 			URL:            "https://blog.boot.dev",
@@ -368,7 +368,7 @@ func TestExtractPageData(t *testing.T) {
 		inputURL := "https://blog.boot.dev"
 		inputBody := ``
 
-		actual := extractPageData(inputBody, inputURL)
+		actual := ExtractPageData(inputBody, inputURL)
 
 		expected := PageData{
 			URL:            "https://blog.boot.dev",

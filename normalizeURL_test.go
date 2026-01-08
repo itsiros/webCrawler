@@ -1,9 +1,7 @@
-package normalizeURL_test
+package main
 
 import (
 	"testing"
-
-	"github.com/itsiros/webCrawler/normalizeURL"
 )
 
 func TestNormalizeURL(t *testing.T) {
@@ -61,7 +59,7 @@ func TestNormalizeURL(t *testing.T) {
 
 	for i, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
-			actual := normalizeURL.NormalizeURL(tc.inputURL)
+			actual := NormalizeURL(tc.inputURL)
 			if actual != tc.expected {
 				t.Errorf(
 					"Test %v - %s FAIL: expected URL: %v, actual: %v",

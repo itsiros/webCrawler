@@ -1,4 +1,4 @@
-package getfromhtml
+package main
 
 import (
 	"net/url"
@@ -15,32 +15,32 @@ type PageData struct {
 	ImageURLs      []string
 }
 
-func extractPageData(html, pageURL string) PageData {
+func ExtractPageData(html, pageURL string) PageData {
 	baseURL, err := url.Parse(pageURL)
 	if err != nil {
 		return PageData{}
 	}
 
-	urls, err := getURLsFromHTML(html, baseURL)
+	urls, err := GetURLsFromHTML(html, baseURL)
 	if err != nil {
 		return PageData{}
 	}
 
-	imgs, err := getImagesFromHTML(html, baseURL)
+	imgs, err := GetImagesFromHTML(html, baseURL)
 	if err != nil {
 		return PageData{}
 	}
 
 	return PageData{
 		URL:            pageURL,
-		H1:             getH1FromHTML(html),
-		FirstParagraph: getFirstParagraphFromHTML(html),
+		H1:             GetH1FromHTML(html),
+		FirstParagraph: GetFirstParagraphFromHTML(html),
 		OutgoingLinks:  urls,
 		ImageURLs:      imgs,
 	}
 }
 
-func getH1FromHTML(html string) string {
+func GetH1FromHTML(html string) string {
 	doc, err := goquery.NewDocumentFromReader(strings.NewReader(html))
 	if err != nil {
 		return ""
@@ -54,7 +54,7 @@ func getH1FromHTML(html string) string {
 	return strings.TrimSpace(h1.Text())
 }
 
-func getFirstParagraphFromHTML(html string) string {
+func GetFirstParagraphFromHTML(html string) string {
 	doc, err := goquery.NewDocumentFromReader(strings.NewReader(html))
 	if err != nil {
 		return ""
@@ -76,7 +76,7 @@ func getFirstParagraphFromHTML(html string) string {
 	return strings.TrimSpace(p.Text())
 }
 
-func getURLsFromHTML(htmlBody string, baseURL *url.URL) ([]string, error) {
+func GetURLsFromHTML(htmlBody string, baseURL *url.URL) ([]string, error) {
 	doc, err := goquery.NewDocumentFromReader(strings.NewReader(htmlBody))
 	if err != nil {
 		return nil, err
@@ -105,7 +105,7 @@ func getURLsFromHTML(htmlBody string, baseURL *url.URL) ([]string, error) {
 	return urls, nil
 }
 
-func getImagesFromHTML(htmlBody string, baseURL *url.URL) ([]string, error) {
+func GetImagesFromHTML(htmlBody string, baseURL *url.URL) ([]string, error) {
 	doc, err := goquery.NewDocumentFromReader(strings.NewReader(htmlBody))
 	if err != nil {
 		return nil, err

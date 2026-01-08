@@ -1,4 +1,4 @@
-package normalizeURL
+package main
 
 import (
 	"net/url"
